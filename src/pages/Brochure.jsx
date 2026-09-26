@@ -74,7 +74,7 @@ const Brochure = () => {
     {
       title: 'Portal web',
       category: 'Desarrollo Web',
-      desc: 'Rediseño y actualización del portal Web institucional del Concejo Distrital de Benventura.',
+      desc: 'Rediseño y actualización del portal Web institucional del Concejo Distrital de Buenaventura.',
       img: '/img/concej.png'
     },
     {
