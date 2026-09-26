@@ -60,16 +60,22 @@ const Brochure = () => {
       img: '/img/web_fabio.jpeg'
     },
     {
-      title: 'Portal CertiPuntos',
+      title: 'EcoReporter',
       category: 'Aplicaciones Web',
-      desc: 'Plataforma web personalizada para la gestión, acumulación y consulta de puntos y certificados de clientes.',
-      img: '/img/certi_puntos.jpeg'
+      desc: 'Monitoreo inteligente para proteger el medio ambiente y los ecosistemas costeros.',
+      img: '/img/eco_repo.png'
     },
     {
-      title: 'Despliegue de Portal Web',
+      title: 'Crmpro',
+      category: 'Aplicaciones Web',
+      desc: 'Administra clientes, procesos y operaciones desde una sola plataforma moderna y segura.',
+      img: '/img/crm_pro.png'
+    },
+    {
+      title: 'Portal web',
       category: 'Desarrollo Web',
-      desc: 'Implementación y entrega de portales interactivos a la medida con gestor de contenidos autoadministrable.',
-      img: '/img/entrega_portalweb.jpeg'
+      desc: 'Rediseño y actualización del portal Web institucional del Concejo Distrital de Benventura.',
+      img: '/img/concej.png'
     },
     {
       title: 'Configuración de Servidores y Redes',

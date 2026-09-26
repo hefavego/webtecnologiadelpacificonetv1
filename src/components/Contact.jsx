@@ -107,7 +107,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">Ubicación</h4>
-                    <p className="text-gray-600">Av. El Dorado #68b-31<br />Bogotá, Colombia</p>
+                    <p className="text-gray-600">Barrio el Dorado/Buenaventura con sede en Cali/Colombia</p>
                   </div>
                 </div>
 
@@ -117,7 +117,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">Email</h4>
-                    <p className="text-gray-600">info@tecnologiadelpacifico.com</p>
+                    <p className="text-gray-600">cliente@tenologiadelpacifico.net</p>
                   </div>
                 </div>
 
@@ -127,7 +127,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">Teléfono</h4>
-                    <p className="text-gray-600">+57 (601) 555-0123</p>
+                    <p className="text-gray-600">+57 (302) 4892307</p>
                   </div>
                 </div>
               </div>
