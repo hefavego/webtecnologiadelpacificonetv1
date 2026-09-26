@@ -156,10 +156,130 @@ const validateVisit = [
   handleValidation,
 ];
 
+// ── CRM de WhatsApp (admin) ───────────────────────────────────
+const { query } = require('express-validator');
+
+const WHATSAPP_FOLLOW_UP_STATUSES = ['nuevo', 'contactado', 'interesado', 'cotizado', 'cliente', 'descartado'];
+
+const validateWhatsappContactId = [
+  param('id')
+    .isInt({ min: 1 }).withMessage('ID inválido.')
+    .toInt(),
+
+  handleValidation,
+];
+
+const validateWhatsappContactList = [
+  query('status')
+    .optional({ checkFalsy: true })
+    .isIn(WHATSAPP_FOLLOW_UP_STATUSES).withMessage('Estado inválido.'),
+
+  query('q')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ max: 100 }).withMessage('Búsqueda demasiado larga.'),
+
+  query('due')
+    .optional({ checkFalsy: true })
+    .isIn(['0', '1']).withMessage('due debe ser 0 o 1.'),
+
+  query('page')
+    .optional({ checkFalsy: true })
+    .isInt({ min: 1 }).withMessage('page inválido.')
+    .toInt(),
+
+  query('limit')
+    .optional({ checkFalsy: true })
+    .isInt({ min: 1, max: 200 }).withMessage('limit debe estar entre 1 y 200.')
+    .toInt(),
+
+  handleValidation,
+];
+
+const validateWhatsappMessages = [
+  param('id')
+    .isInt({ min: 1 }).withMessage('ID inválido.')
+    .toInt(),
+
+  query('limit')
+    .optional({ checkFalsy: true })
+    .isInt({ min: 1, max: 500 }).withMessage('limit debe estar entre 1 y 500.')
+    .toInt(),
+
+  query('before')
+    .optional({ checkFalsy: true })
+    .isInt({ min: 1 }).withMessage('before inválido.')
+    .toInt(),
+
+  handleValidation,
+];
+
+const validateWhatsappContactUpdate = [
+  param('id')
+    .isInt({ min: 1 }).withMessage('ID inválido.')
+    .toInt(),
+
+  body('follow_up_status')
+    .optional()
+    .isIn(WHATSAPP_FOLLOW_UP_STATUSES)
+    .withMessage(`Estado inválido. Usa: ${WHATSAPP_FOLLOW_UP_STATUSES.join(', ')}.`),
+
+  body('notes')
+    .optional({ nullable: true })
+    .isString().withMessage('Notas inválidas.')
+    .trim()
+    .isLength({ max: 5000 }).withMessage('Notas máximo 5000 caracteres.')
+    .customSanitizer(stripHtml),
+
+  body('full_name')
+    .optional({ nullable: true })
+    .isString().withMessage('Nombre inválido.')
+    .trim()
+    .isLength({ max: 255 }).withMessage('Nombre demasiado largo.')
+    .customSanitizer(stripHtml),
+
+  body('email')
+    .optional({ nullable: true, checkFalsy: true })
+    .trim()
+    .isEmail().withMessage('Formato de email inválido.')
+    .normalizeEmail()
+    .isLength({ max: 255 }).withMessage('Email demasiado largo.'),
+
+  body('interest_service')
+    .optional({ nullable: true })
+    .isString().withMessage('Servicio inválido.')
+    .trim()
+    .isLength({ max: 255 }).withMessage('Servicio demasiado largo.')
+    .customSanitizer(stripHtml),
+
+  body('assigned_to')
+    .optional({ nullable: true })
+    .isString().withMessage('Asesor inválido.')
+    .trim()
+    .isLength({ max: 255 }).withMessage('Asesor demasiado largo.')
+    .customSanitizer(stripHtml),
+
+  body('next_follow_up_at')
+    .optional({ nullable: true, checkFalsy: true })
+    .isISO8601().withMessage('Fecha de seguimiento inválida (usa formato ISO, ej. 2026-10-01T09:00).'),
+
+  body('marketing_opt_in')
+    .optional()
+    .isBoolean().withMessage('marketing_opt_in debe ser true o false.')
+    .toBoolean(),
+
+  handleValidation,
+];
+
 module.exports = {
   validateLogin,
   validateRegister,
   validateQuotation,
   validateQuotationUpdate,
   validateVisit,
+  WHATSAPP_FOLLOW_UP_STATUSES,
+  validateWhatsappContactId,
+  validateWhatsappContactList,
+  validateWhatsappMessages,
+  validateWhatsappContactUpdate,
 };

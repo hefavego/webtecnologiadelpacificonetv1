@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const db      = require('../db');
+const whatsappCrm = require('../services/whatsappCrm');
 
 // In-memory conversation state sessions
 // In production, you would use Redis or a database table for persistency
@@ -42,11 +43,14 @@ const sendWhatsAppMessage = async (to, text) => {
     const resData = await response.json();
     if (!response.ok) {
       console.error('❌ Error response from Meta Cloud API:', JSON.stringify(resData));
+      whatsappCrm.recordOutgoing({ phone: to, body: text, status: 'failed' });
       return false;
     }
+    whatsappCrm.recordOutgoing({ phone: to, body: text, waMessageId: resData?.messages?.[0]?.id, status: 'sent' });
     return true;
   } catch (error) {
     console.error('❌ Network error calling Meta Cloud API:', error.message);
+    whatsappCrm.recordOutgoing({ phone: to, body: text, status: 'failed' });
     return false;
   }
 };
@@ -63,7 +67,7 @@ const sendServicesMenu = async (to) => {
 };
 
 const sendContactInfo = async (to) => {
-  const contactText = `📞 *Medios de Contacto*:\n\n📍 *Dirección:* Carrera 61 #3-06 Barrio Dorado, Buenaventura - Valle\n📧 *Correo:* cliente@tecnologiadelpacifico.net\n📱 *Celular/WhatsApp:* +57 3024892307\n🌐 *Sitio Web:* www.tecnologiadelpacifico.net\n\nEscribe *MENU* para regresar al menú principal.`;
+  const contactText = `📞 *Medios de Contacto*:\n\n📍 *Dirección:* Barrio el Dorado/Buenaventura con sede en Cali/Colombia\n📧 *Correo:* cliente@tecnologiadelpacifico.net\n📱 *Celular/WhatsApp:* +57 3024892307\n🌐 *Sitio Web:* www.tecnologiadelpacifico.net\n\nEscribe *MENU* para regresar al menú principal.`;
   await sendWhatsAppMessage(to, contactText);
 };
 
@@ -105,7 +109,7 @@ const getLocalNLPResponse = (text, userName) => {
   // 2. GENERAL INFO
   // Contact
   if (/\b(contacto|telefono|teléfono|celular|whatsapp|correo|email|direccion|dirección|ubicacion|ubicación|buenaventura|donde|dónde|oficina|oficinas)\b/.test(normalizedText)) {
-    return `📞 *Información de Contacto y Ubicación*\n\nEn *Tecnología del Pacífico S.A.S.* estamos listos para atenderle:\n\n📍 *Ubicación:* Carrera 61 #3-06 Barrio Dorado, Buenaventura - Valle del Cauca, Colombia.\n📧 *Correo Electrónico:* cliente@tecnologiadelpacifico.net\n📱 *Celular/WhatsApp:* +57 3024892307\n🌐 *Sitio Web:* www.tecnologiadelpacifico.net\n\nEscriba *MENU* para ver todas las opciones disponibles.`;
+    return `📞 *Información de Contacto y Ubicación*\n\nEn *Tecnología del Pacífico S.A.S.* estamos listos para atenderle:\n\n📍 *Ubicación:* Barrio el Dorado/Buenaventura con sede en Cali/Colombia.\n📧 *Correo Electrónico:* cliente@tecnologiadelpacifico.net\n📱 *Celular/WhatsApp:* +57 3024892307\n🌐 *Sitio Web:* www.tecnologiadelpacifico.net\n\nEscriba *MENU* para ver todas las opciones disponibles.`;
   }
 
   // Hours
@@ -139,7 +143,7 @@ const getGeminiResponse = async (text, userName) => {
   const systemPrompt = `Eres el asistente virtual inteligente de WhatsApp para la empresa 'Tecnología del Pacífico S.A.S' (proveedor de servicios tecnológicos en Buenaventura, Colombia). Tu objetivo es responder las dudas de los clientes de manera amable, profesional y concisa, utilizando un formato optimizado para WhatsApp (negritas, viñetas cortas, emojis). Limita tus respuestas a un máximo de 2 o 3 párrafos cortos para que sea legible en celulares.
 
 Aquí tienes la información oficial de la empresa:
-- Ubicación: Carrera 61 #3-06 Barrio Dorado, Buenaventura - Valle del Cauca, Colombia.
+- Ubicación: Barrio el Dorado/Buenaventura con sede en Cali/Colombia.
 - Correo: cliente@tecnologiadelpacifico.net
 - Teléfono/WhatsApp: +57 3024892307
 - Sitio Web: www.tecnologiadelpacifico.net
@@ -293,6 +297,7 @@ const handleBotLogic = async (from, text, userName) => {
 
     case 'COTIZAR_NAME':
       session.data.name = text.trim();
+      whatsappCrm.updateContactData(from, { full_name: session.data.name });
       await sendWhatsAppMessage(from, `Gracias, *${session.data.name}*.\n\nAhora, por favor ingresa tu dirección de *Correo Electrónico*:`);
       session.state = 'COTIZAR_EMAIL';
       break;
@@ -305,6 +310,7 @@ const handleBotLogic = async (from, text, userName) => {
         break;
       }
       session.data.email = email;
+      whatsappCrm.updateContactData(from, { email });
       
       await sendWhatsAppMessage(from, '¿Qué servicio te interesa?\n\n1. Desarrollo Web / Software\n2. Infraestructura & Redes\n3. Soporte y Mantenimiento Técnico\n4. Consultoría y Marketing Digital\n5. Ciberseguridad / Protección\n6. Bases de Datos\n\nResponde con el número (1 al 6):');
       session.state = 'COTIZAR_SERVICE';
@@ -325,6 +331,7 @@ const handleBotLogic = async (from, text, userName) => {
         break;
       }
       session.data.service = selectedService;
+      whatsappCrm.updateContactData(from, { interest_service: selectedService });
       await sendWhatsAppMessage(from, `Has seleccionado *${selectedService}*.\n\nPor favor, describe brevemente qué necesitas para tu proyecto o problema:`);
       session.state = 'COTIZAR_DESC';
       break;
@@ -363,6 +370,7 @@ const handleBotLogic = async (from, text, userName) => {
             session.data.budget
           ]
         );
+        whatsappCrm.updateContactData(from, { quoted: true, budget_range: session.data.budget });
 
         await sendWhatsAppMessage(from, `🎉 *¡Cotización creada con éxito!* 🎉\n\nDetalles registrados:\n• *Nombre:* ${session.data.name}\n• *Correo:* ${session.data.email}\n• *Servicio:* ${session.data.service}\n• *Descripción:* ${session.data.desc}\n• *Presupuesto:* ${session.data.budget}\n\nUn asesor de *Tecnología del Pacífico S.A.S* revisará tu solicitud y se pondrá en contacto contigo pronto.\n\nEscribe *MENU* para iniciar otra consulta.`);
       } catch (err) {
@@ -420,6 +428,13 @@ router.post('/webhook', async (req, res) => {
         const msgType = message.type;
         const contact = body.entry[0].changes[0].value.contacts?.[0] || {};
         const userName = contact.profile?.name || 'Cliente';
+
+        // Guardar contacto y mensaje en el CRM (en segundo plano, no retrasa la respuesta)
+        whatsappCrm.recordIncoming({
+          phone: from,
+          profileName: contact.profile?.name || null,
+          message,
+        });
 
         let userMessageText = '';
         if (msgType === 'text') {

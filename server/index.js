@@ -15,6 +15,7 @@ const authRouter       = require('./routes/auth');
 const whatsappRouter   = require('./routes/whatsapp');
 const productsRouter   = require('./routes/products');
 const siteContentRouter = require('./routes/siteContent');
+const whatsappCrmRouter = require('./routes/whatsappCrm');
 const { apiLimiter }   = require('./middleware/rateLimiter');
 
 // ─── Variables de entorno requeridas ──────────────────────────
@@ -81,6 +82,7 @@ app.use('/api/visits',     visitsRouter);
 app.use('/api/auth',       authRouter);
 app.use('/api/products',   productsRouter);
 app.use('/api/site-content', siteContentRouter);
+app.use('/api/whatsapp-crm', whatsappCrmRouter);
 
 // ─── 8. Health check (sin info sensible) ─────────────────────
 app.get('/api/health', (_req, res) => {
