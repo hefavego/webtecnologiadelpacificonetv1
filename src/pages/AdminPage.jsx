@@ -30,6 +30,7 @@ import {
   getVisitsByDay,
   getTopReferrers,
 } from '@/lib/analytics';
+import WhatsAppCrmTab from '@/components/admin/WhatsAppCrmTab';
 
 // ─── Small reusable components ──────────────────────────────────────────────
 
@@ -1437,6 +1438,7 @@ const AdminPage = () => {
           { id: 'products_mgmt', label: 'Productos', icon: Package },
           { id: 'site_content', label: 'Contenido Web', icon: Monitor },
           { id: 'analytics',  label: 'Visitantes',   icon: BarChart2 },
+          { id: 'whatsapp_crm', label: 'CRM WhatsApp', icon: MessageCircle },
         ].map(tab => (
           <button
             key={tab.id}
@@ -1625,6 +1627,18 @@ const AdminPage = () => {
             transition={{ duration: 0.25 }}
           >
             <AnalyticsTab refreshKey={analyticsRefreshKey} />
+          </motion.div>
+        )}
+
+        {activeTab === 'whatsapp_crm' && (
+          <motion.div
+            key="whatsapp_crm"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+          >
+            <WhatsAppCrmTab />
           </motion.div>
         )}
       </AnimatePresence>
