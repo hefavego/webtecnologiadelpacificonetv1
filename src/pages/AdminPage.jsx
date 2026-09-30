@@ -760,11 +760,20 @@ const ProductsMgmtTab = () => {
     }));
   };
 
+  // Arma el enlace escrito en las cajas (nombre opcional, se agrega https:// si falta)
+  const buildPendingLink = () => {
+    const rawUrl = linkUrlInput.trim();
+    if (!rawUrl) return null;
+    const url = /^[a-z][a-z0-9+.-]*:/i.test(rawUrl) ? rawUrl : `https://${rawUrl}`;
+    return { label: linkLabelInput.trim() || 'Ver Demo', url };
+  };
+
   const handleAddLink = () => {
-    if (!linkLabelInput.trim() || !linkUrlInput.trim()) return;
+    const pendingLink = buildPendingLink();
+    if (!pendingLink) return;
     setProductForm(prev => ({
       ...prev,
-      links: [...prev.links, { label: linkLabelInput.trim(), url: linkUrlInput.trim() }]
+      links: [...prev.links, pendingLink]
     }));
     setLinkLabelInput('');
     setLinkUrlInput('');
@@ -797,13 +806,18 @@ const ProductsMgmtTab = () => {
       toast({ title: 'Campo obligatorio', description: 'El nombre es obligatorio.', variant: 'destructive' });
       return;
     }
+    // Si quedó un enlace escrito sin pulsar "Añadir Enlace", se incluye al guardar
+    const pendingLink = buildPendingLink();
+    const dataToSave = pendingLink
+      ? { ...productForm, links: [...productForm.links, pendingLink] }
+      : productForm;
     setSubmitting(true);
     try {
       if (editingId) {
-        await updateProduct(editingId, productForm);
+        await updateProduct(editingId, dataToSave);
         toast({ title: '✅ Producto actualizado', description: 'El producto se ha modificado correctamente.' });
       } else {
-        await createProduct(productForm);
+        await createProduct(dataToSave);
         toast({ title: '✅ Producto creado', description: 'El producto se ha añadido al catálogo.' });
       }
       setIsOpen(false);

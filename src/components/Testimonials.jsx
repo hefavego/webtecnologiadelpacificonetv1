@@ -7,46 +7,50 @@ import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 const testimonials = [
   {
     id: 1,
-    text: 'Tecnología del Pacífico transformó completamente nuestra infraestructura. La eficiencia operativa aumentó un 40% en los primeros meses.',
-    name: 'Carlos Rodríguez',
-    role: 'CEO, Innova Corp',
-    avatar: 'https://images.unsplash.com/photo-1585066039196-e30d097340be?w=96&h=96&fit=crop&crop=face',
+    text: 'Tecnología del Pacífico transformó completamente nuestro portal institucional. La eficiencia operativa aumentó un 90% en los primeros meses',
+    name: 'Concejo Distrital',
+    role: 'de Buenaventura',
+    avatar: 'concejo.ico',
+    logo: true,
   },
   {
     id: 2,
-    text: 'El equipo superó nuestras expectativas. Entregaron el proyecto en tiempo récord con una calidad impecable. Los recomendamos ampliamente.',
+    text: 'Gracias a su equipo logramos reducir los fallos en la red de la red de empresa en tiempo récord, con un rendimento en producción de un 90%.',
     name: 'Laura Martínez',
     role: 'Directora de TI, FinGroup S.A.',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&fit=crop&crop=face',
+    avatar: 'LOGO-EN-PNG-DE-CAPITAL-8.png',
+    logo: true,
   },
   {
     id: 3,
     text: 'Gracias a su solución cloud, redujimos costos operativos en un 35% y ganamos la agilidad que necesitábamos para escalar nuestro negocio.',
     name: 'Andrés Gómez',
     role: 'Gerente General, LogiMax',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&fit=crop&crop=face',
+    avatar: 'insol.ico',
+    logo: true,
   },
-  {
-    id: 4,
-    text: 'La auditoría de ciberseguridad que realizaron nos salvó de una vulnerabilidad crítica. Profesionales de primer nivel, sin duda.',
-    name: 'Sofía Herrera',
-    role: 'CTO, BancaSoft',
-    avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=96&h=96&fit=crop&crop=face',
-  },
-  {
-    id: 5,
-    text: 'Implementaron nuestro ERP en menos tiempo del esperado. La migración fue transparente y sin interrupciones para nuestro negocio.',
-    name: 'Miguel Torres',
-    role: 'COO, RetailPro',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=face',
-  },
-  {
-    id: 6,
-    text: 'Su soporte post-lanzamiento es excepcional. Siempre disponibles y con soluciones rápidas. Mejor decisión haber contratado a este equipo.',
-    name: 'Valentina Cruz',
-    role: 'Fundadora, EduTech Colombia',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=face',
-  },
+  // ─── Testimonios con foto de cliente (desactivados por ahora) ───
+  // {
+  //   id: 4,
+  //   text: 'La auditoría de ciberseguridad que realizaron nos salvó de una vulnerabilidad crítica. Profesionales de primer nivel, sin duda.',
+  //   name: 'Sofía Herrera',
+  //   role: 'CTO, BancaSoft',
+  //   avatar: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=96&h=96&fit=crop&crop=face',
+  // },
+  // {
+  //   id: 5,
+  //   text: 'Implementaron nuestro ERP en menos tiempo del esperado. La migración fue transparente y sin interrupciones para nuestro negocio.',
+  //   name: 'Miguel Torres',
+  //   role: 'COO, RetailPro',
+  //   avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=face',
+  // },
+  // {
+  //   id: 6,
+  //   text: 'Su soporte post-lanzamiento es excepcional. Siempre disponibles y con soluciones rápidas. Mejor decisión haber contratado a este equipo.',
+  //   name: 'Valentina Cruz',
+  //   role: 'Fundadora, EduTech Colombia',
+  //   avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&fit=crop&crop=face',
+  // },
 ];
 
 // Cuántas tarjetas mostrar según el ancho de pantalla
@@ -159,9 +163,11 @@ const Testimonials = () => {
                       "{t.text}"
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden shrink-0">
+                      <div className={t.logo
+                        ? 'w-44 h-24 shrink-0 flex items-center justify-center'
+                        : 'w-12 h-12 bg-gray-200 rounded-full overflow-hidden shrink-0'}>
                         <img
-                          className="w-full h-full object-cover"
+                          className={t.logo ? 'max-w-full max-h-full object-contain' : 'w-full h-full object-cover'}
                           alt={t.name}
                           src={t.avatar}
                           onError={e => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=0891b2&color=fff`; }}

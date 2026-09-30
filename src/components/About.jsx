@@ -15,7 +15,7 @@ const About = () => {
     {
       icon: TrendingUp,
       title: 'Visión',
-      description: 'Ser líderes en tecnología del Pacífico, reconocidos por nuestra excelencia e innovación.'
+      description: 'Ser líderes en tecnología en el sur occidente colombiano, nacional e internacional reconocidos por nuestra excelencia e innovación.'
     },
     {
       icon: Heart,

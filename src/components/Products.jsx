@@ -99,8 +99,15 @@ const Products = () => {
                 className={`rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border ${isInCart ? 'border-cyan-500 ring-2 ring-cyan-500/20' : 'border-gray-100'} bg-white flex flex-col`}
               >
                 <div className="relative overflow-hidden h-56 shrink-0">
-                  <img 
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" 
+                  <img
+                    className={`w-full h-full object-cover hover:scale-110 transition-transform duration-500 ${hasScreenshotsOrLinks ? 'cursor-pointer' : ''}`}
+                    title={product.links?.[0]?.url ? `Abrir ${product.links[0].label || 'aplicación'}` : undefined}
+                    onClick={hasScreenshotsOrLinks ? () => {
+                      // Si el producto tiene enlace, la imagen abre la app web; si no, muestra las capturas
+                      const appUrl = product.links?.[0]?.url;
+                      if (appUrl) window.open(appUrl, '_blank', 'noopener,noreferrer');
+                      else openProductDetails(product);
+                    } : undefined}
                     alt={product.name}
                     src={product.image_url || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80'} 
                   />

@@ -38,10 +38,10 @@ const Header = () => {
           <Link to="/">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-3 cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer"
             >
-              <img 
-                src="https://horizons-cdn.hostinger.com/e6f206d8-f0b5-4fa0-9061-f36fb8d512ac/ed69614e121fb5016b4c3ce083ccc11f.png" 
+              <img
+                src="logo-transparente.png"
                 alt="Tecnología del Pacífico S.A.S logo" 
                 className="h-12 w-auto"
               />
