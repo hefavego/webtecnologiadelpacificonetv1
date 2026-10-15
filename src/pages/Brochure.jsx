@@ -54,10 +54,10 @@ const Brochure = () => {
 
   const projects = [
     {
-      title: 'Sitio Web Fabio',
+      title: 'Sitio Web Electoral',
       category: 'Desarrollo Web',
       desc: 'Diseño y desarrollo de sitio web corporativo responsivo, rápido y optimizado para SEO.',
-      img: '/img/web_fabio.jpeg'
+      img: '/img/appweb1.png'
     },
     {
       title: 'EcoReporter',
@@ -283,9 +283,11 @@ const Brochure = () => {
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                  {/* Etiqueta de categoría oculta: no encaja a nivel de diseño ni SEO con las imágenes subidas.
                   <div className="absolute top-4 left-4 bg-[#00A8A8] text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                     {project.category}
                   </div>
+                  */}
                 </div>
 
                 {/* Content */}

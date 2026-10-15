@@ -111,9 +111,11 @@ const Products = () => {
                     alt={product.name}
                     src={product.image_url || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80'} 
                   />
+                  {/* Etiqueta "Software" oculta: no encaja a nivel de diseño ni SEO con las imágenes subidas.
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                     Software
                   </div>
+                  */}
                 </div>
 
                 <div className="p-6 flex flex-col flex-grow">
