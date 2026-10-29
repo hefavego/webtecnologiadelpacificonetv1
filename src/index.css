@@ -43,6 +43,13 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Responsive: evita el scroll horizontal en celulares causado por elementos
+   decorativos (círculos, animaciones) que sobresalen del ancho de pantalla */
+body {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
 /* Custom scrollbar for cart */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;

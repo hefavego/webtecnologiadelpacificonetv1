@@ -61,7 +61,18 @@ const quotationLimiter = rateLimit({
   skipSuccessfulRequests: false,
 });
 
+// ── Limitador para recuperación de contraseña ────────────────
+// 5 solicitudes / hora por IP — evita abuso del envío de correos
+const passwordResetLimiter = rateLimit({
+  windowMs:        60 * 60 * 1000,
+  max:             5,
+  standardHeaders: true,
+  legacyHeaders:   false,
+  message:         rateLimitMessage('recuperación de contraseña'),
+});
+
 module.exports = {
+  passwordResetLimiter,
   apiLimiter,
   authLimiter,
   visitLimiter,

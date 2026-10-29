@@ -15,6 +15,9 @@ export const API = {
   login:       `${API_BASE_URL}/api/auth/login`,
   register:    `${API_BASE_URL}/api/auth/register`,
   logout:      `${API_BASE_URL}/api/auth/logout`,
+  forgotPassword: `${API_BASE_URL}/api/auth/forgot-password`,
+  resetPassword:  `${API_BASE_URL}/api/auth/reset-password`,
+  changePassword: `${API_BASE_URL}/api/auth/change-password`,
 
   // Quotations
   quotations:  `${API_BASE_URL}/api/quotations`,

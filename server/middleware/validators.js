@@ -271,6 +271,46 @@ const validateWhatsappContactUpdate = [
   handleValidation,
 ];
 
+
+// ── Recuperación / cambio de contraseña ───────────────────────
+const strongPassword = (field) =>
+  body(field)
+    .notEmpty().withMessage('La nueva contraseña es obligatoria.')
+    .isLength({ min: 8, max: 128 }).withMessage('La contraseña debe tener entre 8 y 128 caracteres.')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('La contraseña debe incluir mayúsculas, minúsculas y un número.');
+
+const validateForgotPassword = [
+  body('email')
+    .trim()
+    .notEmpty().withMessage('El email es obligatorio.')
+    .isEmail().withMessage('Formato de email inválido.')
+    .normalizeEmail()
+    .isLength({ max: 255 }).withMessage('Email demasiado largo.'),
+
+  handleValidation,
+];
+
+const validateResetPassword = [
+  body('token')
+    .trim()
+    .matches(/^[a-f0-9]{64}$/).withMessage('El enlace de recuperación no es válido.'),
+
+  strongPassword('password'),
+
+  handleValidation,
+];
+
+const validateChangePassword = [
+  body('currentPassword')
+    .notEmpty().withMessage('La contraseña actual es obligatoria.')
+    .isLength({ max: 128 }).withMessage('Contraseña demasiado larga.'),
+
+  strongPassword('newPassword'),
+
+  handleValidation,
+];
+
 module.exports = {
   validateLogin,
   validateRegister,
@@ -282,4 +322,7 @@ module.exports = {
   validateWhatsappContactList,
   validateWhatsappMessages,
   validateWhatsappContactUpdate,
+  validateForgotPassword,
+  validateResetPassword,
+  validateChangePassword,
 };

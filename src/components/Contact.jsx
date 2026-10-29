@@ -95,9 +95,9 @@ const Contact = () => {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-1 space-y-8"
+            className="lg:col-span-1 space-y-8 min-w-0"
           >
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Información</h3>
               
               <div className="space-y-6">
@@ -117,7 +117,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900">Email</h4>
-                    <p className="text-gray-600">cliente@tecnologiadelpacifico.net</p>
+                    <p className="text-gray-600 break-all">cliente@tecnologiadelpacifico.net</p>
                   </div>
                 </div>
 
@@ -135,14 +135,14 @@ const Contact = () => {
           </motion.div>
 
           {/* Main Form & Cart Area */}
-          <div className="lg:col-span-2 grid gap-8">
+          <div className="lg:col-span-2 grid gap-8 min-w-0">
             
             {/* Cart Summary Section */}
             {cartItems.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white p-8 rounded-2xl shadow-lg border border-cyan-100"
+                className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-cyan-100"
               >
                 <div className="flex items-center gap-2 mb-6 border-b border-gray-100 pb-4">
                   <ShoppingCart className="text-cyan-600" />
@@ -183,7 +183,7 @@ const Contact = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100"
+              className="bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">

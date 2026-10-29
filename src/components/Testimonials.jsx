@@ -156,7 +156,7 @@ const Testimonials = () => {
                 {visible.map((t) => (
                   <div
                     key={t.id}
-                    className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col"
+                    className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col"
                   >
                     <Quote className="text-cyan-200 w-10 h-10 mb-4 shrink-0" />
                     <p className="text-gray-600 italic mb-6 flex-1 leading-relaxed">
@@ -164,7 +164,7 @@ const Testimonials = () => {
                     </p>
                     <div className="flex items-center gap-4">
                       <div className={t.logo
-                        ? 'w-44 h-24 shrink-0 flex items-center justify-center'
+                        ? 'w-28 h-16 sm:w-44 sm:h-24 shrink-0 flex items-center justify-center'
                         : 'w-12 h-12 bg-gray-200 rounded-full overflow-hidden shrink-0'}>
                         <img
                           className={t.logo ? 'max-w-full max-h-full object-contain' : 'w-full h-full object-cover'}

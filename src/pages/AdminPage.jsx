@@ -31,6 +31,9 @@ import {
   getTopReferrers,
 } from '@/lib/analytics';
 import WhatsAppCrmTab from '@/components/admin/WhatsAppCrmTab';
+import { PasswordRecoveryView, ChangePasswordDialog } from '@/components/admin/PasswordRecovery';
+import { useSearchParams } from 'react-router-dom';
+import { KeyRound } from 'lucide-react';
 
 // ─── Small reusable components ──────────────────────────────────────────────
 
@@ -1129,6 +1132,16 @@ const AdminPage = () => {
   const [authForm, setAuthForm] = useState({ email: '', password: '' });
   const [authLoading, setAuthLoading] = useState(false);
 
+  // Recuperación de contraseña — el enlace del correo llega como /admin?reset=<token>
+  const [searchParams, setSearchParams] = useSearchParams();
+  const resetToken = searchParams.get('reset');
+  const [showRecovery, setShowRecovery] = useState(false);
+  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
+  const closeRecovery = () => {
+    setShowRecovery(false);
+    if (resetToken) setSearchParams({}, { replace: true });
+  };
+
   // Analytics refresh key — al incrementarse, AnalyticsTab se recarga desde cero
   const [analyticsRefreshKey, setAnalyticsRefreshKey] = useState(0);
   const [analyticsLoading, setAnalyticsLoading]       = useState(false);
@@ -1295,6 +1308,11 @@ const AdminPage = () => {
     return 'Pendiente';
   };
 
+  // ── RECUPERAR / RESTABLECER CONTRASEÑA ─────────────────────────────────────
+  if (!isAuthenticated && (showRecovery || resetToken)) {
+    return <PasswordRecoveryView resetToken={resetToken} onBack={closeRecovery} />;
+  }
+
   // ── LOGIN / REGISTER VIEW ──────────────────────────────────────────────────
   if (!isAuthenticated) {
     return (
@@ -1338,6 +1356,17 @@ const AdminPage = () => {
                 placeholder="••••••••"
                 required
               />
+              {authMode === 'login' && (
+                <div className="text-right mt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowRecovery(true)}
+                    className="text-sm text-[#0066CC] hover:underline font-medium"
+                  >
+                    ¿Olvidaste tu contraseña?
+                  </button>
+                </div>
+              )}
             </div>
             <Button
               type="submit"
@@ -1384,6 +1413,14 @@ const AdminPage = () => {
           >
             Cerrar Sesión
           </Button>
+          <Button
+            onClick={() => setChangePasswordOpen(true)}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <KeyRound size={16} />
+            Cambiar contraseña
+          </Button>
           {activeTab === 'quotations' && (
             <Button onClick={fetchQuotations} variant="outline" className="flex items-center gap-2">
               <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
@@ -1408,6 +1445,8 @@ const AdminPage = () => {
           )}
         </div>
       </div>
+
+      <ChangePasswordDialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
 
       {/* Diálogo de confirmación para limpiar datos */}
       <Dialog open={clearDialogOpen} onOpenChange={setClearDialogOpen}>

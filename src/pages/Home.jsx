@@ -42,7 +42,7 @@ const Home = () => {
       <Hero />
       
       {/* Who We Are Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white overflow-x-hidden">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
