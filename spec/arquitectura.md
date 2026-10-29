@@ -19,8 +19,20 @@
 
 ## Estructura de Carpetas
 
+El repositorio tiene el frontend y el backend al mismo nivel:
+
 ```
 webtecnologiadelpacificonetv1/
+├── frontend/                   # React + Vite (detalle abajo)
+├── server/                     # API Node.js/Express + MySQL
+├── spec/                       # Documentación del proyecto (esta carpeta)
+└── .gitignore
+```
+
+Contenido de `frontend/`:
+
+```
+frontend/
 ├── public/                     # Assets estáticos servidos en /
 │   ├── .htaccess               # Reglas Apache para SPA routing
 │   ├── company.jpeg            # Foto corporativa
@@ -69,7 +81,6 @@ webtecnologiadelpacificonetv1/
 │   ├── index.css               # Variables CSS globales + Tailwind
 │   └── main.jsx                # Punto de entrada React
 │
-├── spec/                       # Documentación del proyecto (esta carpeta)
 ├── plugins/                    # Plugins Vite del entorno Horizons
 ├── tools/                      # Scripts de build
 ├── index.html                  # HTML raíz de la SPA

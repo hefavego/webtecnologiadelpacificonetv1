@@ -32,6 +32,9 @@ El sitio web es una **Single Page Application (SPA)** construida con React + Vit
 ## Comandos Rápidos
 
 ```bash
+# Entrar a la carpeta del frontend
+cd frontend
+
 # Instalar dependencias
 npm install
 

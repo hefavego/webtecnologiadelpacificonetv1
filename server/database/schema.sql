@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS page_visits (
 --    Cambia este registro antes de desplegar en producción
 -- ============================================================
 INSERT IGNORE INTO users (email, password)
-VALUES ('admin@tecnologiadelpacifico.com', 'admin123');
+VALUES ('cliente@tecnologiadelpacifico.net', 'admin123');
 
 -- ============================================================
 -- 6. Datos de ejemplo para cotizaciones

@@ -10,7 +10,7 @@
 
 ```bash
 # 1. Clonar o abrir el proyecto
-cd webtecnologiadelpacificonetv1
+cd webtecnologiadelpacificonetv1/frontend
 
 # 2. Instalar dependencias
 npm install
@@ -33,7 +33,7 @@ npm run dev
 
 Actualmente las credenciales de Supabase están hardcodeadas en `src/lib/supabaseClient.js`. Para mayor seguridad en producción:
 
-1. Crear archivo `.env` en la raíz:
+1. Crear archivo `.env` en `frontend/`:
 ```
 VITE_SUPABASE_URL=https://ewdyldboyjphgjlcpgzv.supabase.co
 VITE_SUPABASE_ANON_KEY=tu_anon_key_aqui
@@ -62,9 +62,10 @@ RewriteRule ^ index.html [QSA,L]
 
 ```bash
 # 1. Generar build
+cd frontend
 npm run build
 
-# 2. Subir contenido de /dist al servidor
+# 2. Subir contenido de frontend/dist al servidor
 # Ej. con rsync:
 rsync -avz dist/ usuario@servidor:/var/www/html/
 
@@ -75,11 +76,14 @@ rsync -avz dist/ usuario@servidor:/var/www/html/
 ## Despliegue en Netlify / Vercel
 
 ```bash
+# Base directory
+frontend
+
 # Build command
 npm run build
 
 # Publish directory
-dist
+frontend/dist
 
 # Para Netlify, crear public/_redirects:
 echo "/*    /index.html   200" > public/_redirects
